@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using WebBook.Infrastructure.Data;
 using WebBook.Infrastructure.Seeds;
 using WebBook.Infrastructure.ViewModel;
 
@@ -9,6 +11,14 @@ namespace WebBook
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
 
 
 
@@ -31,9 +41,9 @@ namespace WebBook
                     await DefaultRole.SeedAsync(roleManager);
                     await DefaultUser.SeedSuperAdminAsync(userManager, roleManager);
                     await DefaultUser.SeedBasicUserAsync(userManager, roleManager);
-
+                    await DefaultUser.SeedClaimsAsync(roleManager);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
