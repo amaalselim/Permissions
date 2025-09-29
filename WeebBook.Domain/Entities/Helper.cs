@@ -14,5 +14,10 @@
         public const string Password = "SuperAdmin@123*";
         public const string UserName = "superadmin@domain.com";
         public const string Name = "SuperAdmin";
+
+        public const string EmailBasic = "basicuser@domain.com";
+        public const string PasswordBasic = "basicuser@123*";
+        public const string UserNameBasic = "basicuser@domain.com";
+        public const string NameBasic = "BasicUser";
     }
 }
