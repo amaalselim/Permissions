@@ -25,5 +25,24 @@ namespace WebBook.Infrastructure.Seeds
                 await userManager.AddToRoleAsync(DefaultUser.Id, Helper.Roles.SuperAdmin.ToString());
             }
         }
+
+        public static async Task SeedBasicAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            var DefaultUser = new ApplicationUser
+            {
+                UserName = Helper.UserNameBasic,
+                Email = Helper.EmailBasic,
+                Name = Helper.NameBasic,
+                ImageUser = "photo.jpg",
+                ActiveUser = true,
+                EmailConfirmed = true
+            };
+            var user = userManager.FindByEmailAsync(DefaultUser.Email);
+            if (user.Result == null)
+            {
+                await userManager.CreateAsync(DefaultUser, Helper.PasswordBasic);
+                await userManager.AddToRoleAsync(DefaultUser.Id, Helper.Roles.SuperAdmin.ToString());
+            }
+        }
     }
 }
