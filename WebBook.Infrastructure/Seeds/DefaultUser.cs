@@ -5,7 +5,7 @@ using WeebBook.Domain.Entities;
 
 namespace WebBook.Infrastructure.Seeds
 {
-    public class DefaultUser
+    public static class DefaultUser
     {
         public static async Task SeedSuperAdminAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -41,7 +41,7 @@ namespace WebBook.Infrastructure.Seeds
             if (user.Result == null)
             {
                 await userManager.CreateAsync(DefaultUser, Helper.PasswordBasic);
-                await userManager.AddToRoleAsync(DefaultUser.Id, Helper.Roles.SuperAdmin.ToString());
+                await userManager.AddToRoleAsync(DefaultUser.Id, Helper.Roles.Basic.ToString());
             }
         }
     }

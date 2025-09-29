@@ -4,7 +4,7 @@ using WeebBook.Domain.Entities;
 
 namespace WebBook.Infrastructure.Seeds
 {
-    public class DefaultRole
+    public static class DefaultRole
     {
         public static async Task SeedAsync(RoleManager<IdentityRole> roleManager)
         {
