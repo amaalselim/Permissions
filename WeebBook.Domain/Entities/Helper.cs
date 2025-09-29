@@ -13,6 +13,8 @@
         public const string PasswordBasic = "basicuser@123*";
         public const string UserNameBasic = "basicuser@domain.com";
         public const string NameBasic = "BasicUser";
+
+        public const string Permission = "Permission";
         public enum Roles
         {
             SuperAdmin,
