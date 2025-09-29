@@ -1,0 +1,16 @@
+﻿namespace WeebBook.Domain.Constants
+{
+    public static class Permissions
+    {
+        public static List<string> GeneratePermissionsForModule(string module)
+        {
+            return new List<string>
+            {
+                $"Permissions.{module}.Create",
+                $"Permissions.{module}.View",
+                $"Permissions.{module}.Update",
+                $"Permissions.{module}.Delete",
+            };
+        }
+    }
+}

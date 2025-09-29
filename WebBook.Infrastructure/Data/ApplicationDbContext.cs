@@ -1,6 +1,8 @@
-﻿namespace WebBook.Infrastructure.Data
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+
+namespace WebBook.Infrastructure.Data
 {
-    public class ApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext() { }
 

@@ -2,12 +2,6 @@
 {
     public class Helper
     {
-        public enum Roles
-        {
-            SuperAdmin,
-            Admin,
-            Basic
-        }
 
         //Date Default user
         public const string Email = "superadmin@domain.com";
@@ -19,5 +13,22 @@
         public const string PasswordBasic = "basicuser@123*";
         public const string UserNameBasic = "basicuser@domain.com";
         public const string NameBasic = "BasicUser";
+        public enum Roles
+        {
+            SuperAdmin,
+            Admin,
+            Basic
+        }
+
+        public enum PermissionModuleName
+        {
+            Home,
+            Accounts,
+            Roles,
+            Registers,
+            Categories
+        }
+
+
     }
 }
