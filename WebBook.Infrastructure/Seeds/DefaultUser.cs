@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using WebBook.Infrastructure.ViewModel;
+using WeebBook.Domain.Constants;
 using static WeebBook.Domain.Entities.Helper;
 
 namespace WebBook.Infrastructure.Seeds
@@ -22,7 +23,9 @@ namespace WebBook.Infrastructure.Seeds
             if (user.Result == null)
             {
                 await userManager.CreateAsync(DefaultUser, Password);
-                await userManager.AddToRoleAsync(DefaultUser.Id, Roles.SuperAdmin.ToString());
+                await userManager.AddToRolesAsync(DefaultUser, new List<string>{
+                    Roles.SuperAdmin.ToString(),
+                });
             }
         }
 
@@ -41,16 +44,32 @@ namespace WebBook.Infrastructure.Seeds
             if (user.Result == null)
             {
                 await userManager.CreateAsync(DefaultUser, PasswordBasic);
-                await userManager.AddToRoleAsync(DefaultUser.Id, Roles.Basic.ToString());
+                await userManager.AddToRolesAsync(DefaultUser, new List<string>{
+                    Roles.Basic.ToString(),
+                });
             }
-
-            //Code Seeding Claims
+            await roleManager.SeedClaimsAsync();
 
         }
         //Reflection Method
         public static async Task SeedClaimsAsync(this RoleManager<IdentityRole> roleManager)
         {
             var adminRole = await roleManager.FindByNameAsync(Roles.SuperAdmin.ToString());
+            var modules = Enum.GetValues(typeof(PermissionModuleName));
+            foreach (var module in modules)
+                await roleManager.AddPermissionClaims(adminRole, module.ToString());
+        }
+        public static async Task AddPermissionClaims(this RoleManager<IdentityRole> roleManager, IdentityRole role, string module)
+        {
+            var allClaims = await roleManager.GetClaimsAsync(role);
+            var allPermissions = Permissions.GeneratePermissionsForModule(module);
+            foreach (var permission in allPermissions)
+            {
+                if (!allClaims.Any(a => a.Type == Permission && a.Value == permission))
+                {
+                    await roleManager.AddClaimAsync(role, new Claim(Permission, permission));
+                }
+            }
         }
     }
 }
