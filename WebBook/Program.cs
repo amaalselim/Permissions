@@ -1,15 +1,45 @@
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using WebBook.Infrastructure.Seeds;
+using WebBook.Infrastructure.ViewModel;
+
 namespace WebBook
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            #region Seed Default User And Role
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var servies = scope.ServiceProvider;
+                try
+                {
+                    var userManager = servies.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = servies.GetRequiredService<RoleManager<IdentityRole>>();
+
+                    await DefaultRole.SeedAsync(roleManager);
+                    await DefaultUser.SeedSuperAdminAsync(userManager, roleManager);
+                    await DefaultUser.SeedBasicUserAsync(userManager, roleManager);
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            #endregion
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
