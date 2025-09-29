@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using WebBook.Infrastructure.ViewModel;
-using WeebBook.Domain.Entities;
+using static WeebBook.Domain.Entities.Helper;
 
 namespace WebBook.Infrastructure.Seeds
 {
@@ -11,9 +11,9 @@ namespace WebBook.Infrastructure.Seeds
         {
             var DefaultUser = new ApplicationUser
             {
-                UserName = Helper.UserName,
-                Email = Helper.Email,
-                Name = Helper.Name,
+                UserName = UserName,
+                Email = Email,
+                Name = Name,
                 ImageUser = "photo.jpg",
                 ActiveUser = true,
                 EmailConfirmed = true
@@ -21,8 +21,8 @@ namespace WebBook.Infrastructure.Seeds
             var user = userManager.FindByEmailAsync(DefaultUser.Email);
             if (user.Result == null)
             {
-                await userManager.CreateAsync(DefaultUser, Helper.Password);
-                await userManager.AddToRoleAsync(DefaultUser.Id, Helper.Roles.SuperAdmin.ToString());
+                await userManager.CreateAsync(DefaultUser, Password);
+                await userManager.AddToRoleAsync(DefaultUser.Id, Roles.SuperAdmin.ToString());
             }
         }
 
@@ -30,9 +30,9 @@ namespace WebBook.Infrastructure.Seeds
         {
             var DefaultUser = new ApplicationUser
             {
-                UserName = Helper.UserNameBasic,
-                Email = Helper.EmailBasic,
-                Name = Helper.NameBasic,
+                UserName = UserNameBasic,
+                Email = EmailBasic,
+                Name = NameBasic,
                 ImageUser = "photo.jpg",
                 ActiveUser = true,
                 EmailConfirmed = true
@@ -40,9 +40,17 @@ namespace WebBook.Infrastructure.Seeds
             var user = userManager.FindByEmailAsync(DefaultUser.Email);
             if (user.Result == null)
             {
-                await userManager.CreateAsync(DefaultUser, Helper.PasswordBasic);
-                await userManager.AddToRoleAsync(DefaultUser.Id, Helper.Roles.Basic.ToString());
+                await userManager.CreateAsync(DefaultUser, PasswordBasic);
+                await userManager.AddToRoleAsync(DefaultUser.Id, Roles.Basic.ToString());
             }
+
+            //Code Seeding Claims
+
+        }
+        //Reflection Method
+        public static async Task SeedClaimsAsync(this RoleManager<IdentityRole> roleManager)
+        {
+            var adminRole = await roleManager.FindByNameAsync(Roles.SuperAdmin.ToString());
         }
     }
 }
