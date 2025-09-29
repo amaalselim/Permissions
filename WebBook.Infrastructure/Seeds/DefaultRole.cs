@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNetCore.Identity;
 using WeebBook.Domain.Entities;
 
 namespace WebBook.Infrastructure.Seeds
