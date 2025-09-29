@@ -1,5 +1,4 @@
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 using WebBook.Infrastructure.Seeds;
 using WebBook.Infrastructure.ViewModel;
 
