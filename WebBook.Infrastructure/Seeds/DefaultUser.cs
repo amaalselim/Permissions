@@ -26,7 +26,7 @@ namespace WebBook.Infrastructure.Seeds
             }
         }
 
-        public static async Task SeedBasicAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedBasicUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             var DefaultUser = new ApplicationUser
             {
