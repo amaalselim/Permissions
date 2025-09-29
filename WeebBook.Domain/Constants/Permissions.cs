@@ -8,7 +8,7 @@
             {
                 $"Permissions.{module}.Create",
                 $"Permissions.{module}.View",
-                $"Permissions.{module}.Update",
+                $"Permissions.{module}.Edit",
                 $"Permissions.{module}.Delete",
             };
         }
