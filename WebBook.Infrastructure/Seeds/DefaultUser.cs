@@ -40,16 +40,18 @@ namespace WebBook.Infrastructure.Seeds
                 ActiveUser = true,
                 EmailConfirmed = true
             };
-            var user = userManager.FindByEmailAsync(DefaultUser.Email);
-            if (user.Result == null)
+            var user = await userManager.FindByEmailAsync(DefaultUser.Email);
+            if (user == null)
             {
-                await userManager.CreateAsync(DefaultUser, PasswordBasic);
-                await userManager.AddToRolesAsync(DefaultUser, new List<string>{
+                var result = await userManager.CreateAsync(DefaultUser, PasswordBasic);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRolesAsync(DefaultUser, new List<string>{
                     Roles.Basic.ToString(),
-                });
-            }
-            await roleManager.SeedClaimsAsync();
+                        });
+                }
 
+            }
         }
         //Reflection Method
         public static async Task SeedClaimsAsync(this RoleManager<IdentityRole> roleManager)
